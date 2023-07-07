@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        * {
+            font-family: "Inter";
+        }
+    </style>
+</head>
+
+<body>
+    <div class="relative grid min-h-screen bg-gradient-to-b from-[#FFF8F1] to-white overflow-hidden">
+        <div class="flex pb-20 m-auto">
+            <div class="flex py-20 px-10 h-fit items-end gap-16">
+                <div class="flex  order-last w-[450px]">
+                    <img id="linda1" src="./images//linda.png" class="h-[500px] hidden lg:block " draggable="false" style="display: none" />
+                    <img id="linda2" src="./images//linda2.png" class="h-[500px] hidden lg:block ml-20" draggable="false" style="display: none" />
+                    <img id="linda3" src="./images//linda3.png" class="h-[450px] hidden lg:block ml-32" draggable="false" style="display: none" />
+                </div>
+
+                <div class="flex flex-col">
+                    <a href="https://pickans.com/" target="_blank">
+                        <img src="./images//logo.png" class="h-[60px] mb-10 w-fit" draggable="false" />
+                    </a>
+
+                    <div class="flex">
+                        <div class="max-w-[470px]">
+                            <div class="text-lg font-semibold mb-2">Hello 🖖</div>
+                            <div class="text-[#1E1E4C] text-3xl font-bold mb-4">
+                                We’re on the Verge of <br /> Something Extraordinary!
+                            </div>
+                            <p class="text-xs font-normal mb-4">
+                                Our ground-breaking solution is about to change the way you find answers and earn money. Get ready to revolutionize your knowledge-seeking experience!
+                            </p>
+                            <p class="text-xs font-normal mb-4">
+                                Sign up below to be among the first to access our platform and receive exclusive updates before the big launch.
+                                <strong>And that’s not all!</strong>😉
+                            </p>
+                            <p class="text-xs font-normal mb-4">
+                                As a special opportunity for our early adopters we’re giving away free credits. Use them to ask questions and get accurate answers from our knowledgeable and trustworthy experts.
+                            </p>
+                            <p class="text-xs font-normal mb-4">
+                                Join ever-growing Pickans community and embark on an exciting journey of discovery and enlightenment.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex">
+                        <div class="relative">
+                            <img src="./images//bush.png" class="h-20 absolute bottom-0 left-10 -translate-x-full" draggable="false" />
+                            <img src="./images//tree.png" class="h-[335px] absolute bottom-0 right-20 translate-x-full" draggable="false" />
+
+                            <div class="flex flex-col gap-2 bg-[#F5DEDE] rounded-lg max-w-[550px] p-12">
+                                <div class="flex border-[#3A1EFF] border h-14 rounded-lg overflow-hidden">
+                                    <input id="email" type="email" class="h-full flex-grow text-xs color-[#BCBCBC] pl-5 outline-0" placeholder="Enter your email" />
+                                    <button class="bg-[#3A1EFF] text-white px-10" onclick="submitClicked()">
+                                          Request access
+                                    </button>
+                                </div>
+
+                                <div id="message" data-status="hidden" class="data-[status=hidden]:hidden data-[status=success]:text-green-500 data-[status=error]:text-red-500 font-bold"></div>
+
+                                <p class="text-xs font-normal">
+                                    Get ready for an extraordinary experience filled with limitless knowledge and monetisation. Stay tuned for more updates as we approach the big launch day!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-0 w-full h-20 flex bg-[#3a1eff] px-10">
+            <div class="flex max-w-[900px] justify-between items-center m-auto text-white font-normal text-sm w-full flex-col md:flex-row flex-col-reverse gap-2">
+                <div>© 2023 Pickans Inc.</div>
+                <div class="flex gap-5">
+                    <a href="https://beta.pickans.com/policies/privacy-policy" target="_blank">Privacy Policy</a>
+                    <a href="https://beta.pickans.com/policies/terms-of-service" target="_blank">Terms of Service</a>
+                    <a href="https://beta.pickans.com/policies/cookie-policy" target="_blank">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const emailElement = document.getElementById("email");
+        const messageElement = document.getElementById("message");
+
+        function submitClicked() {
+            const emailValue = emailElement.value;
+
+            messageElement.setAttribute("data-status", "hidden");
+
+            const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+
+            if (!emailValue) {
+                messageElement.innerHTML = "Enter your email address.";
+                messageElement.setAttribute("data-status", "error");
+                return;
+            } else if (!emailRegex.test(emailValue)) {
+                messageElement.innerHTML = "Please enter a valid email address.";
+                messageElement.setAttribute("data-status", "error");
+                return;
+            }
+
+            fetch(
+                    "https://us-central1-pickans-ef1dc.cloudfunctions.net/auth/beta-waitlist/" + emailValue, {
+                        method: "POST",
+                    }
+                )
+                .then(async(res) => {
+                    if (!res.ok) {
+                        const text = await res.text();
+
+                        throw new Error(text);
+                    }
+                    messageElement.innerHTML = "Thank you for signing up to the Pickans waitlist!";
+                    messageElement.setAttribute("data-status", "success");
+                })
+                .catch((error) => {
+                    messageElement.innerHTML = error.message || error;
+                    messageElement.setAttribute("data-status", "error");
+                });
+        }
+
+
+        var currentIndex = 1;
+
+        function changeImage() {
+            const currentImage = document.getElementById("linda" + currentIndex);
+            currentImage.style.display = "none";
+
+            currentIndex++;
+
+            if (currentIndex >= 3) {
+                currentIndex = 1;
+            }
+
+            const nextImage = document.getElementById("linda" + currentIndex);
+            nextImage.style.display = "block";
+        }
+
+        changeImage();
+        setInterval(changeImage, 3000);
+    </script>
+
+</html>
