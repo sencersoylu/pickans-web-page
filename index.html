@@ -17,8 +17,8 @@
 <body>
     <div class="relative grid min-h-screen bg-gradient-to-b from-[#FFF8F1] to-white overflow-hidden">
         <div class="flex pb-20 m-auto">
-            <div class="flex py-16 px-10 h-fit items-end gap-16">
-                <div class="flex  order-last w-[450px]">
+            <div class="flex py-16 px-[1vw] sm:px-10 h-fit items-end gap-16">
+                <div class="hidden sm:flex order-last w-[450px]">
                     <img id="linda1" src="./images//linda.png" class="h-[500px] hidden lg:block " draggable="false" style="display: none" />
                     <img id="linda2" src="./images//linda2.png" class="h-[500px] hidden lg:block ml-20" draggable="false" style="display: none" />
                     <img id="linda3" src="./images//linda3.png" class="h-[450px] hidden lg:block ml-32" draggable="false" style="display: none" />
@@ -55,10 +55,10 @@
 
                     <div class="flex">
                         <div class="relative">
-                            <img src="./images//bush.png" class="h-20 absolute bottom-0 left-10 -translate-x-full" draggable="false" />
-                            <img src="./images//tree.png" class="h-[335px] absolute bottom-0 right-20 translate-x-full" draggable="false" />
+                            <img src="./images//bush.png" class="hidden sm:flex h-20 absolute bottom-0 left-10 -translate-x-full" draggable="false" />
+                            <img src="./images//tree.png" class="hidden sm:flex h-[335px] absolute bottom-0 right-20 translate-x-full" draggable="false" />
 
-                            <div class="flex flex-col gap-1 bg-[#F5DEDE] rounded-lg max-w-[550px] px-12 py-10">
+                            <div class="flex flex-col gap-1 bg-[#F5DEDE] rounded-lg max-w-[550px] px-[3vw] py-10">
                                 <div class="flex  h-14 overflow-hidden rounded-lg">
                                     <input id="email" type="email" class="h-full flex-grow text-xs color-[#BCBCBC] pl-5 outline-0 border-[#3A1EFF] border rounded-lg rounded-r-none " placeholder="Enter your email" />
                                     <button id="submitButton" class="bg-[#3A1EFF] text-white px-4 w-2/5 group data-[status=loading] disabled:bg-opacity-75" onclick="submitClicked()">
