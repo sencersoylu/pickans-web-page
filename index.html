@@ -6,14 +6,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />   
-	
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
     <!--====== Title ======-->
     <title>Pickans Knowledge Sharing Platform</title>
-	
+
     <!--====== Favicon Icon ======-->
     <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/png" />
-	
+
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -28,18 +28,18 @@
     <div class="relative grid min-h-screen bg-gradient-to-b from-[#FFF8F1] to-white overflow-hidden">
         <div class="flex pb-20 m-auto">
             <div class="flex py-16 px-[3vw] sm:px-10 h-fit items-end gap-16">
-                <div class="hidden sm:flex order-last w-[450px]">
-                    <img id="linda1" src="./images//linda.png" class="h-[500px] hidden lg:block " draggable="false" style="display: none" />
-                    <img id="linda2" src="./images//linda2.png" class="h-[500px] hidden lg:block ml-20" draggable="false" style="display: none" />
-                    <img id="linda3" src="./images//linda3.png" class="h-[450px] hidden lg:block ml-32" draggable="false" style="display: none" />
+                <div class="hidden sm:flex order-last w-[470px] justify-end">
+                    <img id="linda1" src="./images/linda.png" class="h-[500px] hidden lg:block" draggable="false" style="display: none" />
+                    <img id="linda2" src="./images/linda2.png" class="h-[550px] hidden lg:block" draggable="false" style="display: none" />
+                    <img id="linda3" src="./images/linda3.png" class="h-[450px] hidden lg:block" draggable="false" style="display: none" />
                 </div>
 
                 <div class="flex flex-col">
-				 <div class="flex mb-10">
-					<a href="https://pickans.com/" target="_blank">
-					    <img src="./images//logo.png" class="h-[60px] w-fit" draggable="false" />
-					</a>
-				 </div>
+                    <div class="flex mb-10">
+                        <a href="https://pickans.com/" target="_blank">
+                            <img src="./images/logo.png" class="h-[60px] w-fit" draggable="false" />
+                        </a>
+                    </div>
 
                     <div class="flex">
                         <div class="max-w-[470px]">
@@ -65,10 +65,11 @@
 
                     <div class="flex">
                         <div class="relative">
-                            <img src="./images//bush.png" class="hidden sm:flex h-20 absolute bottom-0 left-10 -translate-x-full" draggable="false" />
-                            <img src="./images//tree.png" class="hidden sm:flex h-[335px] absolute bottom-0 right-20 translate-x-full" draggable="false" />
+                            <img src="./images/bush.png" class="hidden sm:flex h-20 absolute bottom-0 left-10 -translate-x-full" draggable="false" />
+                            <img src="./images/tree.png" class="hidden sm:flex h-[370px] absolute bottom-0 right-[88px] translate-x-full" draggable="false" />
 
                             <div class="flex flex-col gap-1 bg-[#F5DEDE] rounded-lg max-w-[550px] px-[3vw] py-10">
+                                <div class="text-[#1E1E4C] text-xs font-semibold">Join others on the waitlist.</div>
                                 <div class="flex  h-14 overflow-hidden rounded-lg">
                                     <input id="email" type="email" class="h-full flex-grow text-xs color-[#BCBCBC] pl-5 outline-0 border-[#3A1EFF] border rounded-lg rounded-r-none " placeholder="Enter your email" />
                                     <button id="submitButton" class="bg-[#3A1EFF] text-white px-4 w-2/5 group data-[status=loading] disabled:bg-opacity-75" onclick="submitClicked()">
@@ -107,10 +108,38 @@
         </div>
     </div>
 
+    <!--Overlay Effect-->
+    <div id="modal" data-hidden="true" class="data-[hidden=true]:hidden fixed inset-0 bg-[#BABACA] bg-opacity-40 overflow-y-auto h-full w-full">
+        <!--modal content-->
+        <div class="relative top-10 mx-auto px-[3vw] py-5 border max-w-[500px] rounded-lg bg-white">
+            <div class="flex justify-center">
+                <img src="./images/welcome.png" class="h-[220px]" draggable="false" />
+            </div>
+            <div class="mt-3">
+                <div class="flex my-12">
+                    <div class="flex flex-col text-xs text-black font-light w-[350px] gap-1">
+                        <div>Thank you for signing up to the <span class="text-[#3A1EFF] font-medium">Pickans</span> waitlist!</div>
+
+                        <div>Please check your inbox or spam folder for a confirmation. </div>
+
+                        <div>You will be the first to get access!</div>
+
+                        <div><span class="text-[#3A1EFF] font-medium">Welcome!</span> Thank you for signing up to the waitlist for Pickans!</div>
+                    </div>
+                </div>
+                <div class="flex justify-center items-center px-4 py-3">
+                    <button class="px-12 py-3 bg-[#3A1EFF] text-white text-sm font-medium rounded-full" onclick="doneClicked()">
+				Done
+			    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const emailElement = document.getElementById("email");
-        const messageElement = document.getElementById("message");
-        const buttonElement = document.getElementById("submitButton");
+        function doneClicked() {
+            modalElement.setAttribute("data-hidden", "true");
+        }
 
         function submitClicked() {
             const emailValue = emailElement.value;
@@ -129,32 +158,30 @@
                 return;
             }
 
-		buttonElement.disabled = true;
+            buttonElement.disabled = true;
 
             fetch(
                     "https://us-central1-pickans-ef1dc.cloudfunctions.net/auth/beta-waitlist/" + emailValue, {
                         method: "POST",
                     }
                 )
-                .then(async(res) => {		
+                .then(async(res) => {
                     if (!res.ok) {
                         const text = await res.text();
 
                         throw new Error(text);
                     }
-                    messageElement.innerHTML = "Thank you for signing up to the Pickans waitlist!";
-                    messageElement.setAttribute("data-status", "success");
+                    // messageElement.innerHTML = "Thank you for signing up to the Pickans waitlist!";
+                    // messageElement.setAttribute("data-status", "success");
+                    modalElement.setAttribute("data-hidden", "false");
                 })
                 .catch((error) => {
                     messageElement.innerHTML = error.message || error;
                     messageElement.setAttribute("data-status", "error");
                 }).finally(() => {
-		buttonElement.disabled = false;
-			 });
+                    buttonElement.disabled = false;
+                });
         }
-
-
-        var currentIndex = 1;
 
         function changeImage() {
             const currentImage = document.getElementById("linda" + currentIndex);
@@ -162,13 +189,21 @@
 
             currentIndex++;
 
-            if (currentIndex >= 3) {
+            if (currentIndex > 3) {
                 currentIndex = 1;
             }
 
             const nextImage = document.getElementById("linda" + currentIndex);
             nextImage.style.display = "block";
         }
+
+
+        var currentIndex = 1;
+
+        const emailElement = document.getElementById("email");
+        const messageElement = document.getElementById("message");
+        const buttonElement = document.getElementById("submitButton");
+        const modalElement = document.getElementById("modal");
 
         changeImage();
         setInterval(changeImage, 3000);
